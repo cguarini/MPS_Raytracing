@@ -318,7 +318,7 @@ void slaveDynamic(ConfigData * data) {
 
     //Packet containing render data along with computation time
     int renderPacketSize = renderSize + 1;
-    float * renderPacket = new float[renderSize];
+    float * renderPacket = new float[renderPacketSize];
 
     
 

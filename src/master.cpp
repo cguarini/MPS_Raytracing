@@ -492,7 +492,7 @@ double masterDynamic(ConfigData * data, float * pixels) {
 
     //Packet containing render data along with computation time
     int renderPacketSize = renderSize + 1;
-    float * renderPacket = new float[renderSize];
+    float * renderPacket = new float[renderPacketSize];
 
     ////////////////////////////////////////////////////////////////////
     //Communication
@@ -541,11 +541,11 @@ double masterDynamic(ConfigData * data, float * pixels) {
 
         //Recieve a packet from a slave that is done computation
         MPI_Recv(requestPacket, requestPacketSize, MPI_INT, MPI_ANY_SOURCE, 'r', MPI_COMM_WORLD, &status);
-        
-        std::cout << "Received request from " << requesterRank << std::endl;
 
         //Parse packet
         int requesterRank = requestPacket[0];
+
+        std::cout << "Received request from " << requesterRank << std::endl;
 
         instructionPacket[0] = 1;//Finished flag, if true slave should end
         instructionPacket[1] = 0;
@@ -553,7 +553,7 @@ double masterDynamic(ConfigData * data, float * pixels) {
         instructionPacket[3] = 0;
         instructionPacket[4] = 0;
 
-        std::cout << "Sending " << requesterRank <<" block " << startX <<"," <<startY << std::endl;
+        std::cout << "Sending " << requesterRank <<" finished!" << std::endl;
 
         MPI_Send(instructionPacket, instructionPacketSize, MPI_INT, requesterRank, 'i', MPI_COMM_WORLD);
     }
